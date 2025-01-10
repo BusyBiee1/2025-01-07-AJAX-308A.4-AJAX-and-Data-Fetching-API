@@ -87,8 +87,8 @@ async function loadBreedImages_fetch(breedId) {
   try {
     // Reset progress bar and clear previous content
     progressBar.style.width = "0%";
-    Carousel.clear(); // Clear previous carousel items
-    infoDump.innerHTML = ""; // Clear previous info section
+    Carousel.clear(); 
+    infoDump.innerHTML = ""; 
 
     // Fetch images for the selected breed
     const res = await fetch(
@@ -152,12 +152,12 @@ function updateProgress(progressEvent) {
 async function loadBreedImages_axios(breedId) {
   try {
     //progressBar.style.width = "0%"; // Reset the progress bar
-    Carousel.clear(); // Clear previous carousel
-    infoDump.innerHTML = ""; // Clear previous info section
+    Carousel.clear(); 
+    infoDump.innerHTML = ""; 
 
     const res = await axios.get('/images/search', {
       params: { breed_id: breedId, limit: 10 },
-      onDownloadProgress: updateProgress // Pass updateProgress here
+      onDownloadProgress: updateProgress // progress tracking
     });
     const images = res.data;
 
@@ -190,13 +190,13 @@ async function loadBreedImages_axios(breedId) {
   }
 }
 
-// Event Listeners
+// Event Listeners for fetch
 breedSelect_fetch.addEventListener('change', (event) => {
   const selectedBreed = event.target.value;
   loadBreedImages_fetch(selectedBreed);
 });
 
-// Event Listeners
+// Event Listeners for axios
 breedSelect_axios.addEventListener('change', (event) => {
   const selectedBreed = event.target.value;
   loadBreedImages_axios(selectedBreed);
@@ -229,7 +229,8 @@ breedSelect_axios.addEventListener('change', (event) => {
 axios.interceptors.request.use(request => {
   progressBar.style.width = "0%"; // Reset the progress bar
   //body.style.cursor = "progress";    // Set cursor to "progress" on request start
-  if (document.body) { // Check if body exists before accessing its style
+  // Check if body exists before accessing its style
+  if (document.body) { 
     document.body.style.cursor = "progress";
   }
   request.metadata = request.metadata || {};
@@ -243,9 +244,10 @@ axios.interceptors.response.use(
       response.config.metadata.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
 
       console.log(`Msg From Interceptor: Success: Request took ${response.config.metadata.durationInMS} milliseconds.`)
-      if (document.body) { // Check if body exists before accessing its style
+      // Check if body exists before accessing its style
+      if (document.body) { 
         document.body.style.cursor = "default";
-      }//body.style.cursor = "default"; // Remove progress cursor on error
+      }
       return response;
   },
   (error) => {
@@ -253,10 +255,10 @@ axios.interceptors.response.use(
       error.config.metadata.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
 
       console.log(`Msg From Interceptor: Error: Request took ${error.config.metadata.durationInMS} milliseconds.`)
-      progressBar.style.width = "0%"; // Also reset on error
-      if (document.body) { // Check if body exists before accessing its style
+      progressBar.style.width = "0%"; 
+      if (document.body) {
         document.body.style.cursor = "default";
-      }      //body.style.cursor = "default"; // Remove progress cursor on error
+      }
       throw error;
 });
 
@@ -288,8 +290,6 @@ axios.interceptors.response.use(
 /**/
 
 // Answer: added the progress cursor style functionality in the above code.
-
-
   export async function favourite(imgId) {
     // your code here
     try {
@@ -329,7 +329,7 @@ axios.interceptors.response.use(
       console.error("Error favoriting/unfavoriting image:", error);
   }
 
-  // Function to populate the carousel with images (REFACTORED)
+  // Function to populate the carousel with images 
   async function populateCarousel(images) {
     Carousel.clear(); // Clear previous carousel items
 
@@ -346,6 +346,7 @@ axios.interceptors.response.use(
     Carousel.start();
   }
 
+  // handle favorities  
   async function getFavourites() {
     try {
         progressBar.style.width = "0%";
@@ -369,7 +370,7 @@ axios.interceptors.response.use(
   // Event Listener for Get Favourites Button
   getFavouritesBtn.addEventListener('click', getFavourites);
 
-  // Event Handler for Breed Selection - using axios (UPDATED to use populateCarousel)
+  // Event Handler for Breed Selection - using axios 
   async function loadBreedImages_axios(breedId) {
     try {
         progressBar.style.width = "0%";
